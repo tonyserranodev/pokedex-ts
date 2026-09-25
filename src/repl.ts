@@ -8,13 +8,14 @@ export function cleanInput(input: string): string[] {
     .filter((word) => word !== "");
 }
 
-export function startREPL(state: State) {
+export async function startREPL(state: State) {
   state.rl.prompt();
 
-  state.rl.on("line", (input: string) => {
+  state.rl.on("line", async (input: string) => {
     const words = cleanInput(input);
     if (words.length == 0) {
       state.rl.prompt();
+      return;
     }
 
     const cmd = state.commands[words[0]];
@@ -25,9 +26,10 @@ export function startREPL(state: State) {
     }
 
     try {
-      cmd.callback(state);
+      await cmd.callback(state);
     } catch (e) {
-      console.log(e);
+      console.log(e as Error);
     }
+    state.rl.prompt();
   });
 }

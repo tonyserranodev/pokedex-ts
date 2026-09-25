@@ -2,6 +2,8 @@ import { createInterface, type Interface } from "readline";
 import { commandHelp } from "./command_help.js";
 import { commandExit } from "./command_exit.js";
 import { PokeAPI } from "./pokeapi.js";
+import { commandMap } from "./command_map.js";
+import { commandMapb } from "./command_mapb.js";
 
 export type CLICommand = {
   name: string;
@@ -28,6 +30,16 @@ export function getCommands(): Record<string, CLICommand> {
       name: "exit",
       description: "Exit the Pokedex",
       callback: commandExit,
+    },
+    map: {
+      name: "map",
+      description: "List 20 locations. Run again to list the next 20",
+      callback: commandMap,
+    },
+    mapb: {
+      name: "mapb",
+      description: "List previous 20 locations. Run again to list 20 more",
+      callback: commandMapb,
     },
   };
 }
