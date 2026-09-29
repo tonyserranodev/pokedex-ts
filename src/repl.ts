@@ -19,6 +19,7 @@ export async function startREPL(state: State) {
     }
 
     const cmd = state.commands[words[0]];
+    const args = words.slice(1);
     if (!cmd) {
       console.log("Unknown Command");
       state.rl.prompt();
@@ -26,7 +27,7 @@ export async function startREPL(state: State) {
     }
 
     try {
-      await cmd.callback(state);
+      await cmd.callback(state, ...args);
     } catch (e) {
       console.log(e as Error);
     }
